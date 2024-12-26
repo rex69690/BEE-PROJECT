@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const Student = require('./student.js');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
-// MongoDB Connection
+//connecting mongoDb to the node js
 mongoose.connect('mongodb://localhost:27017/data', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -47,15 +47,15 @@ app.post('/api/register', async (request, response) => {
     semester 
   });
 
-  try {
-    await student.save();
-    response.status(201).send('<h1>Student registered successfully</h1>');
-  } catch (err) {
-    console.error('Error saving student:', err.message); // Log the error message
-    console.error('Error details:', err); // Log the full error object
-    response.status(500).send('Error registering student');
-  }
+  student.save()
+  .then(()=>{
+    console.log("student registered");
+  })
+  .catch(err =>{
+    console.error("cant register");
+  })
 });
+
 
 // Start the server
 app.listen(PORT, () => {
