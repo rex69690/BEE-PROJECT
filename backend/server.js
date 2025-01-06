@@ -34,7 +34,6 @@ app.post('/api/register', async (request, response) => {
   console.log(request.body); 
   const { name, email, rollNumber, course, phone, dob, gender, yearOfStudy, semester } = request.body;
   
-  // Create a new student object with the additional parameters
   const student = new Student({ 
     name, 
     email, 
