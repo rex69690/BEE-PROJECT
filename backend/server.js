@@ -1,25 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const Student = require('./student.js');
 
 const app = express();
 const PORT = 3000;
 
+
 //connecting mongoDb to the node js
-mongoose.connect('mongodb://localhost:27017/data', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect('mongodb://localhost:27017/data')
 .then(() => {
   console.log('MongoDB connected successfully');
 })
 .catch(err => {
-  console.error('MongoDB connection error:', err);
+  console.error('MongoDB connection error:');
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('frontend'));
 
 app.get('/', (request, response) => {
@@ -30,8 +26,8 @@ app.get("/about" , (request , response)=>{
 })
 
 // Registration for student 
-app.post('/api/register', async (request, response) => {
-  console.log(request.body); 
+app.post('/api/register',  (request, response) => {
+  
   const { name, email, rollNumber, course, phone, dob, gender, yearOfStudy, semester } = request.body;
   
   const student = new Student({ 
@@ -55,8 +51,7 @@ app.post('/api/register', async (request, response) => {
   })
 });
 
-
-// Start the server
+//starting the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
